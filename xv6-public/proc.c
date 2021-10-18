@@ -215,6 +215,9 @@ fork(void)
   acquire(&ptable.lock);
 
   np->state = RUNNABLE;
+  
+  /* lab 3 - Myles Willis*/
+  np->nice = 20;
 
   release(&ptable.lock);
 
@@ -319,12 +322,19 @@ wait(void)
 //  - swtch to start running that process
 //  - eventually that process transfers control
 //      via swtch back to the scheduler.
+
+/*lab3 - Adam Schmidt, Myles Willis*/
+
 void
 scheduler(void)
 {
   struct proc *p;
+  struct proc *i;
   struct cpu *c = mycpu();
   c->proc = 0;
+  
+  //Setting the first process in the process table to comparison variable.
+  struct proc *highest_priority = 0; 
   
   for(;;){
     // Enable interrupts on this processor.
@@ -332,9 +342,25 @@ scheduler(void)
 
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
+    
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+      highest_priority = p;
       if(p->state != RUNNABLE)
         continue;
+        
+      for(i = ptable.proc; i < &ptable.proc[NPROC]; i++){
+			  if(i->state != RUNNABLE)
+			    continue;
+			  
+			  //choose a runnable process with the lowest nice value.
+				 if(highest_priority->nice > i->nice){
+			  	highest_priority = i;
+			  }
+		  }
+			  
+		  if(highest_priority->state != RUNNABLE)
+		  	continue;
+        
 
       // Switch to chosen process.  It is the process's job
       // to release ptable.lock and then reacquire it
@@ -531,4 +557,74 @@ procdump(void)
     }
     cprintf("\n");
   }
+}
+
+int
+cps()
+{
+   struct proc *p;
+   //Enabl interrupts on this processor
+   sti();
+   //Loop over process table looking for process with pid
+   acquire(&ptable.lock);
+   cprintf("name \t pid \t state   \t priority\n");
+   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+      if(p->state == SLEEPING)
+         cprintf("%s \t %d \t SLEEPING \t   %d\n", p->name, p->pid, p->nice);
+      else if(p->state == RUNNING)
+         cprintf("%s \t %d \t RUNNING \t   %d\n", p->name, p->pid, p->nice);
+      else if(p->state == RUNNABLE)
+         cprintf("%s \t %d \t RUNNABLE \t   %d\n", p->name, p->pid, p->nice);
+   }
+   release(&ptable.lock);
+   return 22;
+}
+
+int 						
+set_priority(int pid, int priority)
+{
+	struct proc *p;
+	
+	 acquire(&ptable.lock);
+	 
+	 if(priority < 0) {
+	 		//cprintf("\npriority < 0, clamping to 0\n");
+	 		priority = 0;
+	 } else if(priority > 39) {
+	 		priority = 39;
+	 		//cprintf("\npriority > 39, clamping to 39\n");
+	 }
+
+   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+      if(p->pid == pid) {
+         //cprintf("This is PID: %d\n", p->pid);
+         p->nice = priority;
+         //cprintf("This is nice value: %d\n", p->nice);
+    		 release(&ptable.lock);        
+         return 0;
+      }
+   }
+   release(&ptable.lock);
+   return -1;
+}
+
+int
+get_priority(int pid)
+{
+	 int nice_value;
+	 struct proc *p;
+	
+	 acquire(&ptable.lock);
+
+	 //find process by ID and retrieve nice value
+   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+      if(p->pid == pid) {
+         //cprintf("This is PID: %d\n", p->pid);
+         nice_value = p->nice;
+         release(&ptable.lock);
+         return nice_value;
+      }
+   }
+   release(&ptable.lock);
+   return -1;
 }

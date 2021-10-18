@@ -1,0 +1,132 @@
+Lab 3 Report
+Oct 13, 2021
+Adam Schmidt 
+Myles Willis
+
+
+Task 1: Command and Output is pasted below:
+$ ps
+name 	 pid 	 state   	 priority
+init 	 1 	 SLEEPING 	   10
+sh 	 2 	 SLEEPING 	   10
+ps 	 3 	 RUNNING 	   10
+
+
+
+Task 2: Command and Output is pasted below:
+$ lab3test 4
+Parent 3 creating child 4
+Parent 3 creating child CChild 5 cre5hild 4 created
+
+Parent 3 creataChild 6 created
+ing child 6
+Parent 3 creating child 7
+tChild 7 created
+ed
+
+$ ps
+name 	 pid 	 state   	 priority
+init 	 1 	 SLEEPING 	   10
+sh 	 2 	 SLEEPING 	   10
+ps 	 8 	 RUNNING 	   10
+lab3test 	 4 	 RUNNING 	   20
+lab3test 	 5 	 RUNNABLE 	   20
+lab3test 	 6 	 RUNNABLE 	   20
+lab3test 	 7 	 RUNNABLE 	   20
+
+$ nice 5 18
+System process ID #5 now has nice value: 18 
+
+$ ps
+name 	 pid 	 state   	 priority
+init 	 1 	 SLEEPING 	   10
+sh 	 2 	 SLEEPING 	   10
+ps 	 10 	 RUNNING 	   10
+lab3test 	 4 	 RUNNABLE 	   20
+lab3test 	 5 	 RUNNABLE 	   18
+lab3test 	 6 	 RUNNING 	   20
+lab3test 	 7 	 RUNNABLE 	   20
+
+
+
+Task 3: Command and Output is pasted below:
+$ lab3test &; lab3test &; lab3test &
+Parent 5 creating child 9
+Child 9 created
+$ Parent 7 creating child 10
+Child 10 created
+ParentChild 11 created
+ 8 creating child 11
+ps
+name 	 pid 	 state   	 priority
+init 	 1 	 SLEEPING 	   10
+sh 	 2 	 SLEEPING 	   10
+lab3test 	 9 	 RUNNING 	   20
+lab3test 	 8 	 SLEEPING 	   10
+lab3test 	 5 	 SLEEPING 	   10
+lab3test 	 7 	 SLEEPING 	   10
+lab3test 	 10 	 RUNNABLE 	   20
+lab3test 	 11 	 RUNNABLE 	   20
+ps 	 12 	 RUNNING 	   10
+$ ps
+name 	 pid 	 state   	 priority
+init 	 1 	 SLEEPING 	   10
+sh 	 2 	 SLEEPING 	   10
+lab3test 	 9 	 RUNNABLE 	   20
+lab3test 	 8 	 SLEEPING 	   10
+lab3test 	 5 	 SLEEPING 	   10
+lab3test 	 7 	 SLEEPING 	   10
+lab3test 	 10 	 RUNNING 	   20
+lab3test 	 11 	 RUNNABLE 	   20
+ps 	 13 	 RUNNING 	   10
+
+
+Observation: When you run ps at different time intervals as shown above, you
+can see that process 10 state is switched to running on the second run of ps. 
+
+
+
+Task 4: Command and Output is pasted below:
+ ps
+name 	 pid 	 state   	 priority
+init 	 1 	 SLEEPING 	   10
+sh 	 2 	 SLEEPING 	   10
+ps 	 3 	 RUNNING 	   10
+$ lab3test &; lab3test &; lab3test &
+$ Parent 8 creating child 10
+Parent 6 creatCing chihild 10 created
+Pld 11
+Child 11 created
+arent 9 creChild 12 created
+ating child 12
+ps
+name 	 pid 	 state   	 priority
+init 	 1 	 SLEEPING 	   10
+sh 	 2 	 SLEEPING 	   10
+lab3test 	 10 	 RUNNABLE 	   20
+lab3test 	 9 	 SLEEPING 	   10
+lab3test 	 6 	 SLEEPING 	   10
+lab3test 	 8 	 SLEEPING 	   10
+lab3test 	 11 	 RUNNABLE 	   20
+lab3test 	 12 	 RUNNING 	   20
+ps 	 13 	 RUNNING 	   10
+$ nice 11 5
+System process ID #11 now has nice value: 5 
+$ ps
+name 	 pid 	 state   	 priority
+init 	 1 	 SLEEPING 	   10
+sh 	 2 	 SLEEPING 	   10
+lab3test 	 10 	 RUNNABLE 	   20
+lab3test 	 9 	 SLEEPING 	   10
+lab3test 	 6 	 SLEEPING 	   10
+lab3test 	 8 	 SLEEPING 	   10
+lab3test 	 11 	 RUNNING 	   5
+lab3test 	 12 	 RUNNABLE 	   20
+ps 	 15 	 RUNNING 	   10
+
+Observations: As you can see process 11 becomes runnable when its nice value
+is changed to 5(higher priority), thus showing that it is now prioritized
+over the other processes. 
+
+
+

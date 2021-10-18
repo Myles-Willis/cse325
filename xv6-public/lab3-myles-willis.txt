@@ -1,0 +1,17 @@
+ESTIMATE of time to complete lab: 7 hours
+				Start    Time    Lab
+Date    Time     Spent   Part  Work completed
+----    -----    ----    ----  ---------
+10/13    20:00    1:30    1     Read assignment then completed Task 1 and 2
+10/14    12:45   	3:40    4     Worked on Task 4 Exercise 4 and 5 with lab partner
+10/14    3:45   	0:30          Completed  lab write-up and time log files
+
+         				-----         
+         				5:40    TOTAL time spent
+        
+A brief discussion of the major difficulties encountered:
+Task 4 exercise 4 of the lab had some difficulties when attempting to get the xv6 to compile with the added code to the scheduler. However, after working together and stepping through the logic we both came up, with we solved the error.
+
+
+Peer Evaluation:
+My lab partner was easy to work with and was beneficial to bounce ideas off of when completing the lab tasks. Overall I feel that we were able to work together sucessfully. 
