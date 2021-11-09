@@ -1,6 +1,11 @@
 struct stat;
 struct rtcdate;
 
+struct lock_t {
+    uint locked;    // 0 unlocked, 1 locked
+};
+
+
 // system calls
 int fork(void);
 int exit(void) __attribute__((noreturn));
@@ -23,6 +28,12 @@ int getpid(void);
 char* sbrk(int);
 int sleep(int);
 int uptime(void);
+int	thread_create(void (*fn) (void *), void *stack, void *arg);
+int	thread_join(void);
+int	thread_exit(void);
+int	lock_init(struct lock_t*);
+int	lock_acquire(struct lock_t*);
+int	lock_release(struct lock_t*);
 
 // ulib.c
 int stat(const char*, struct stat*);
