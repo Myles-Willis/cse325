@@ -624,14 +624,14 @@ thread_exit(void) {
 
 int
 lock_init(struct lock_t* lock) {
-	cprintf("lock_init\n");
+	//cprintf("lock_init\n");
 	lock->locked = 0;
 	return 0;
 }
 
 int
 lock_acquire(struct lock_t* lock) {
-	cprintf("lock_aquire\n");
+	//cprintf("lock_aquire\n");
 	while(xchg(&lock->locked, 1));
 	
 	return 0;
@@ -639,7 +639,7 @@ lock_acquire(struct lock_t* lock) {
 
 int
 lock_release(struct lock_t* lock) {
-	cprintf("lock_release\n");
+	//cprintf("lock_release\n");
 	xchg(&lock->locked, 0);
 	return 0;
 }
