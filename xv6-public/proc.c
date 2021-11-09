@@ -532,3 +532,28 @@ procdump(void)
     cprintf("\n");
   }
 }
+
+
+
+int 
+thread_create(void (*fn) (void *), void *stack, void *arg)
+{
+	
+	return thread_create();
+}
+
+
+
+int
+thread_join(void)
+{
+	return thread_join();
+}
+
+
+
+int
+thread_exit(void)
+{
+	return thread_exit();
+}
